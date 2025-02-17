@@ -64,8 +64,8 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/${{ env.OWNER_LC }}/stocknote_be:${{ needs.makeTagAndRelease.outputs.tag_name }},
-            ghcr.io/${{ env.OWNER_LC }}/stocknote_be:latest
+            ghcr.io/${{ env.OWNER_LC }}/chijoontec_back:${{ needs.makeTagAndRelease.outputs.tag_name }},
+            ghcr.io/${{ env.OWNER_LC }}/chijoontec_back:latest
   deploy:
     runs-on: ubuntu-latest
     needs: [ buildImageAndPush ]
