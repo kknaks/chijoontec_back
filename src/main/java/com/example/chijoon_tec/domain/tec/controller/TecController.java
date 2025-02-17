@@ -7,6 +7,7 @@ import com.example.chijoon_tec.domain.tec.repository.TecRepository;
 import com.example.chijoon_tec.domain.tec.service.TecService;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +22,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class TecController {
 
   private final TecService tecService;
@@ -39,6 +41,8 @@ public class TecController {
 
   @PostMapping("/bulk")
   public void addTecList(@RequestBody List<TecRequest> tecRequestList){
+    log.debug("tecRequestList: {}", tecRequestList);
+    log.debug("tecRequestList size: {}", tecRequestList.size());
     tecService.addTecList(tecRequestList);
   }
 }

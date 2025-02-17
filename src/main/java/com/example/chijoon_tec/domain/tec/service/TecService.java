@@ -9,12 +9,14 @@ import com.example.chijoon_tec.domain.tec.entity.Tec;
 import com.example.chijoon_tec.domain.tec.repository.TecRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class TecService {
 
   private final PrimaryRepository primaryRepository;
@@ -40,24 +42,24 @@ public class TecService {
   }
 
   public void addTecList(List<TecRequest> requestList) {
-    requestList.stream()
-        .map(request -> {
-          PrimaryCategory primaryCategory = primaryRepository.findById(request.getCategoryId())
-              .orElseThrow(() -> new IllegalArgumentException("Primary category not found"));
+    log.debug("tecRequestList: {}", requestList);
+    for (TecRequest request : requestList) {
+      log.debug("======:{}", request.getCategoryId());
+      PrimaryCategory primaryCategory = primaryRepository.findById(request.getCategoryId())
+          .orElseThrow(() -> new IllegalArgumentException("Primary category not found"));
 
-          SecondaryCategory secondaryCategory = secondaryRepository.findById(request.getSubCategoryId())
-              .orElseThrow(() -> new IllegalArgumentException("Secondary category not found"));
-
-          Tec tec = Tec.builder()
-              .primaryCategory(primaryCategory)
-              .secondaryCategory(secondaryCategory)
-              .technology(request.getTechnology())
-              .description(request.getDescription())
-              .jobPosting(request.getJobPosting())
-              .sourceURL(request.getSourceURL())
-              .build();
-
-          return tecRepository.save(tec);
-        });
+      SecondaryCategory secondaryCategory = secondaryRepository.findById(request.getSubCategoryId())
+          .orElseThrow(() -> new IllegalArgumentException("Secondary category not found"));
+      Tec tec = Tec.builder()
+          .primaryCategory(primaryCategory)
+          .secondaryCategory(secondaryCategory)
+          .technology(request.getTechnology())
+          .description(request.getDescription())
+          .jobPosting(request.getJobPosting())
+          .sourceURL(request.getSourceURL())
+          .build();
+      log.debug("tec:{}", tec.getDescription());
+      tecRepository.save(tec);
+    }
   }
 }

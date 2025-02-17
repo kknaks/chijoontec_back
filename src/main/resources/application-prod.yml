@@ -33,16 +33,8 @@ logging:
         chijoon_tec: DEBUG
 
 custom:
-  dev:
-    cookieDomain: localhost
-    frontUrl: "http://${custom.dev.cookieDomain}:5173"
-    backUrl: "http://${custom.dev.cookieDomain}:${server.port}"
-  prod:
-    cookieDomain: chijoon.kknaks.site
-    frontUrl: "https://www.${custom.prod.cookieDomain}"
-    backUrl: "https://api.${custom.prod.cookieDomain}"
   site:
     name: "chijoon"
-    cookieDomain: "${custom.dev.cookieDomain}"
-    frontUrl: "${custom.dev.frontUrl}"
-    backUrl: "${custom.dev.backUrl}"
+    cookieDomain: "${custom.prod.cookieDomain}"
+    frontUrl: "${custom.prod.frontUrl}"
+    backUrl: "${custom.prod.backUrl}"
