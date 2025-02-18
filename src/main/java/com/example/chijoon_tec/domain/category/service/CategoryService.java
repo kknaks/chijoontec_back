@@ -1,5 +1,6 @@
 package com.example.chijoon_tec.domain.category.service;
 
+import com.example.chijoon_tec.domain.category.dto.CategoryRequest;
 import com.example.chijoon_tec.domain.category.entity.PrimaryCategory;
 import com.example.chijoon_tec.domain.category.entity.SecondaryCategory;
 import com.example.chijoon_tec.domain.category.repository.SecondaryRepository;
@@ -17,15 +18,19 @@ public class CategoryService {
 
   public List<PrimaryCategory> getPrimaryList() {
     return primaryRepository.findAll();
-//    return primaryCategories.stream()
-//        .map(PrimaryCategory::getPrimaryCategory)
-//        .collect(Collectors.toList());
   }
 
   public List<SecondaryCategory> getSecondaryList(Long selectedCategoryId) {
     return secondaryRepository.findSecondaryCategoryByPrimaryCategoryId(selectedCategoryId);
-//    return secondaryCategories.stream()
-//        .map(SecondaryCategory::getSecondaryCategory)
-//        .collect(Collectors.toList());
+  }
+
+  public void addSecondaryCategory(Long categoryId, CategoryRequest request) {
+    PrimaryCategory primaryCategory = primaryRepository.findById(categoryId)
+        .orElseThrow(() -> new IllegalArgumentException("Primary category not found"));
+    SecondaryCategory secondaryCategory = SecondaryCategory.builder()
+        .primaryCategory(primaryCategory)
+        .secondaryCategory(request.getName())
+        .build();
+    secondaryRepository.save(secondaryCategory);
   }
 }
