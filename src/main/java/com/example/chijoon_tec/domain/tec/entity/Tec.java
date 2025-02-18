@@ -36,5 +36,4 @@ public class Tec {
   private String jobPosting;
   private String sourceURL;
 
-
 }
